@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../vue.js"></script>
+    <title>aula 03</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>Você clicou: {{contador}} vezes</p>
+        <button @click="diminuir">Diminuir</button>
+        <button @click="incrementar">Incrementar</button>        
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                contador: 0,
+            },
+            methods: {
+                incrementar: function () {
+                    this.contador++;
+                },
+                diminuir: function () {
+                    if(this.contador > 0){
+                        this.contador--;
+                    }                    
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
