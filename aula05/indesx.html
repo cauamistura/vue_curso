@@ -1,0 +1,54 @@
+<!--
+        Utilizando API
+        https://api.origamid.dev/stock/aapl/quote
+      
+        Adicione um evento de clique a cada <a> do html
+        acima e previna o comportamento padrão.
+      
+        Faça o fetch dos dados do href ao click e mostre na
+        interface o companyName, latestPrice, marketCap
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../vue.js"></script>
+    <title>aula 05</title>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li><a @click.prevent="getAcao" href="https://api.origamid.dev/stock/aapl/quote">Apple</a></li>
+            <li><a @click.prevent="getAcao" href="https://api.origamid.dev/stock/googl/quote">Google</a></li>
+            <li><a @click.prevent="getAcao" href="https://api.origamid.dev/stock/amzn/quote">Amazon</a></li>
+            <li><a @click.prevent="getAcao" href="https://api.origamid.dev/stock/ebay/quote">Ebay</a></li>
+            <li><a @click.prevent="getAcao" href="https://api.origamid.dev/stock/pypl/quote">Paypal</a></li>
+            <p>{{acao.companyName}}, {{acao.latestPrice}}, {{acao.marketCap}}</p>
+        </ul>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                acao: {},
+            },
+            methods: {
+                getAcao: function (event) {
+                    const url = event.currentTarget.href;
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(json => {
+                            this.acao = json;
+                        })
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!--
+  Utilizando as API's
+  https://api.origamid.dev/stock/aapl/quote
+  https://api.origamid.dev/stock/googl/quote
+
+  - Compare o marketCap (valor de
+  mercado) entre ambas.
+
+  - Mostre o nome das empresas e o valor
+  na interace (companyName e marketCap).
+
+  - Mude a cor para verde o nome da empresa com
+  maior marketCap e vermelho a com menor.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../vue.js"></script>
+    <title>aula 04</title>
+
+    <style>
+        .verde {
+            color: green;
+        }
+
+        .vermelho {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p v-Bind:class="apple.marketCap > google.marketCap ? 'verde' : 'vermelho'">
+            {{apple.companyName}}, valor: R$ {{apple.marketCap}}
+        </p>
+        <p v-Bind:class="google.marketCap > apple.marketCap ? 'verde' : 'vermelho'">
+            {{google.companyName}}, valor: R$ {{google.marketCap}}
+        </p>
+        <button @click="getValues">Buscar valores</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                google: {
+                    companyName: "Aguardando",
+                    marketCap: 0,
+                },
+                apple: {
+                    companyName: "Aguardando",
+                    marketCap: 0,
+                },
+            },
+            methods: {
+                getValues: function () {
+                    fetch("https://api.origamid.dev/stock/aapl/quote")
+                        .then(response => response.json())
+                        .then(json => {
+                            this.apple = json;
+                        })
+                    fetch("https://api.origamid.dev/stock/googl/quote")
+                        .then(response => response.json())
+                        .then(json => {
+                            this.google = json;
+                        })
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>
