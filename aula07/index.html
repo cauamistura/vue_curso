@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <title>aula 07</title>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(value, key) in enderecos">
+                {{ key }}: {{ value }}
+            </li>
+        </ul>
+        <input type="text" v-model="cepInput">
+        <button @click="getEndereco">Buscar Cep</button>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                enderecos: {},
+                cepInput: ""
+            },
+            methods: {
+                getEndereco: function() {
+                    const cep = this.cepInput.replace(/\D/g, ''); 
+                    if (cep.length !== 8) {
+                        alert("O CEP deve conter 8 dígitos.");
+                        return;
+                    }
+
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(json => {
+                            this.enderecos = json;
+                        })
+                        .catch(error => {
+                            console.error("Erro ao buscar CEP:", error);
+                        });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
